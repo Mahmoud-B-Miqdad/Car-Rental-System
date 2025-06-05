@@ -41,6 +41,17 @@ namespace CarRentalSystem.Web.Services
             await _userRepository.SaveChangesAsync();
         }
 
+        public async Task<User?> ValidateUserCredentialsAsync(LoginViewModel model)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(model.Email);
+
+            if (user != null && VerifyPassword(model.Password, user.Password))
+            {
+                return user;
+            }
+            return null;
+        }
+
         public async Task AddUserAsync(User user)
         {
             await _userRepository.AddUserAsync(user);
@@ -63,6 +74,12 @@ namespace CarRentalSystem.Web.Services
                 byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
                 return Convert.ToBase64String(bytes);
             }
+        }
+
+        private bool VerifyPassword(string enteredPassword, string storedPassword)
+        {
+            var enteredPasswordHash = HashPassword(enteredPassword);
+            return enteredPasswordHash == storedPassword;
         }
     }
 }

@@ -37,7 +37,13 @@ namespace CarRentalSystem.Web.Controllers
 
             await _userService.RegisterUserAsync(model);
 
-            return RedirectToAction("SignIn");
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
         }
 
         [HttpPost]

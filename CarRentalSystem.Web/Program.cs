@@ -1,7 +1,12 @@
 using CarRentalSystem.Db;
+using CarRentalSystem.Db.Extensions;
+using CarRentalSystem.Web.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRepositories();
+builder.Services.AddServices();
 
 builder.Services.AddDbContext<CarRentalDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

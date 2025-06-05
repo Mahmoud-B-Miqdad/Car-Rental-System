@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CarRentalSystem.Db\CarRentalSystem.Db.csproj" />
+  </ItemGroup>
+
 </Project>

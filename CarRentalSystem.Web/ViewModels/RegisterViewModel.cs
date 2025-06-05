@@ -55,6 +55,6 @@ namespace CarRentalSystem.Web.ViewModels
 
         [Required]
         [Display(Name = "Driver's License Number")]
-        public string DriversLicenseNumber { get; set; } = null!;
+        public string DriverLicenseNumber { get; set; } = null!;
     }
 }

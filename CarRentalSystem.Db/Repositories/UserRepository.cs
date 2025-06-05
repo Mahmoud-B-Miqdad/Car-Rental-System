@@ -12,6 +12,10 @@ namespace CarRentalSystem.Db.Repositories
         {
             _context = context;
         }
+        public async Task<bool> DoesEmailExistAsync(string email)
+        {
+            return await _context.Users.AnyAsync(u => u.Email == email);
+        }
 
         public async Task<User?> GetUserByEmailAsync(string email)
         {

@@ -1,0 +1,32 @@
+﻿using CarRentalSystem.Db.Entities;
+using CarRentalSystem.Db.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
+namespace CarRentalSystem.Db.Repositories
+{
+    public class UserRepository : IUserRepository
+    {
+        private readonly CarRentalDbContext _context;
+
+        public UserRepository(CarRentalDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<User?> GetUserByEmailAsync(string email)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task AddUserAsync(User user)
+        {
+            await _context.Users.AddAsync(user);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+    }
+}

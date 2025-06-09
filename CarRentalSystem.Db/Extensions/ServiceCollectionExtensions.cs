@@ -9,6 +9,7 @@ namespace CarRentalSystem.Db.Extensions
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICarRepository, CarRepository>();
 
             return services;
         }

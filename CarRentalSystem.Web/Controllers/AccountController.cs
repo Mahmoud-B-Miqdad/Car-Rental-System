@@ -74,5 +74,47 @@ namespace CarRentalSystem.Web.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit()
+        {
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = await _userService.GetUserByEmailAsync(userEmail);
+
+            if (user == null)
+                return RedirectToAction("Login");
+
+            var model = new EditProfileViewModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                AddressLine1 = user.AddressLine1,
+                AddressLine2 = user.AddressLine2,
+                City = user.City,
+                Country = user.Country
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var success = await _userService.UpdateUserAsync(model);
+
+            if (!success)
+            {
+                TempData["ErrorMessage"] = "Failed to update user.";
+                return View(model);
+            }
+
+            TempData["SuccessMessage"] = "Profile updated successfully.";
+            return RedirectToAction("Edit");
+        }
     }
 }

@@ -61,6 +61,24 @@ namespace CarRentalSystem.Web.Services
             return await _userRepository.GetUserByEmailAsync(email);
         }
 
+        public async Task<bool> UpdateUserAsync(EditProfileViewModel model)
+        {
+            var user = await GetUserByEmailAsync(model.Email);
+            if (user == null) return false;
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.PhoneNumber = model.PhoneNumber;
+            user.AddressLine1 = model.AddressLine1;
+            user.AddressLine2 = model.AddressLine2;
+            user.City = model.City;
+            user.Country = model.Country;
+
+            await _userRepository.UpdateUserAsync(user);
+            return true;
+        }
+
+
         private string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())

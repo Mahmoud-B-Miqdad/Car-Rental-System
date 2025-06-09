@@ -7,5 +7,6 @@ namespace CarRentalSystem.Db.Interfaces
         Task<bool> DoesEmailExistAsync(string email);
         Task<User?> GetUserByEmailAsync(string email);
         Task AddUserAsync(User user);
+        Task UpdateUserAsync(User user);
     }
 }

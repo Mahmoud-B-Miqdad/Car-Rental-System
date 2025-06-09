@@ -10,5 +10,6 @@ namespace CarRentalSystem.Web.Interfaces
         Task<bool> IsEmailUniqueAsync(string email);
         Task RegisterUserAsync(RegisterViewModel model);
         Task<User?> ValidateUserCredentialsAsync(LoginViewModel model);
+        Task<bool> UpdateUserAsync(EditProfileViewModel model);
     }
 }

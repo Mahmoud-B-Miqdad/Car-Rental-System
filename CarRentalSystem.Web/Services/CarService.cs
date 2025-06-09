@@ -13,7 +13,7 @@ namespace CarRentalSystem.Web.Services
             _carRepository = carRepository;
         }
 
-        public async Task<List<CarViewModel>> GetAllCarsAsync()
+        public async Task<List<CarViewModel>> GetAvailableCarsAsync()
         {
             var cars = await _carRepository.GetAllCarsAsync();
             var now = DateTime.UtcNow;
@@ -32,6 +32,34 @@ namespace CarRentalSystem.Web.Services
 
                 IsAvailable = car.AvailableFromDate <= now && car.AvailableToDate >= now
             }).ToList();
+        }
+
+        public async Task<List<CarViewModel>> SearchAvailableCarsAsync(SearchCarViewModel input)
+        {
+            var cars = await _carRepository.GetAllCarsAsync();
+
+            var filteredCars = cars
+                .Where(c =>
+                    c.AvailableFromDate <= input.StartDate &&
+                    c.AvailableToDate >= input.EndDate &&
+                    (string.IsNullOrEmpty(input.Location) || c.Location.ToLower().Contains(input.Location.ToLower()))
+                )
+                .Select(c => new CarViewModel
+                {
+                    Id = c.Id,
+                    Brand = c.Brand,
+                    Model = c.Model,
+                    Year = c.Year,
+                    Type = c.Type,
+                    Location = c.Location,
+                    PricePerDay = c.PricePerDay,
+                    AvailableFromDate = c.AvailableFromDate,
+                    AvailableToDate = c.AvailableToDate,
+                    IsAvailable = true
+                })
+                .ToList();
+
+            return filteredCars;
         }
     }
 }

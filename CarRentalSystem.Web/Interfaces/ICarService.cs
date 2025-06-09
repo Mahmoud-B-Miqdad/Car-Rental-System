@@ -4,6 +4,7 @@ namespace CarRentalSystem.Web.Interfaces
 {
     public interface ICarService
     {
-        Task<List<CarViewModel>> GetAllCarsAsync();
+        Task<List<CarViewModel>> GetAvailableCarsAsync();
+        Task<List<CarViewModel>> SearchAvailableCarsAsync(SearchCarViewModel input);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CarRentalSystem.Web.Interfaces;
+using CarRentalSystem.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,8 +17,21 @@ namespace CarRentalSystem.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var cars = await _carService.GetAllCarsAsync();
+            var cars = await _carService.GetAvailableCarsAsync();
             return View(cars);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Search(SearchCarViewModel input)
+        {
+            if (!ModelState.IsValid)
+            {
+                var cars = await _carService.GetAvailableCarsAsync();
+                return View("Index", cars);
+            }
+
+            var filteredCars = await _carService.SearchAvailableCarsAsync(input);
+            return View("Index", filteredCars);
         }
     }
 }

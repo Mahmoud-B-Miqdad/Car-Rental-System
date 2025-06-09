@@ -6,6 +6,27 @@
 
 <h2>Available Cars</h2>
 
+<form asp-action="Search" method="post" class="mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="StartDate">Start Date</label>
+            <input type="date" name="StartDate" class="form-control" required />
+        </div>
+        <div class="col-md-3">
+            <label for="EndDate">End Date</label>
+            <input type="date" name="EndDate" class="form-control" required />
+        </div>
+        <div class="col-md-3">
+            <label for="Location">Location</label>
+            <input type="text" name="Location" class="form-control" placeholder="Enter location" />
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </div>
+</form>
+
+
 @if (!Model.Any())
 {
     <div class="alert alert-info">No cars available at the moment.</div>

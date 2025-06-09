@@ -26,10 +26,6 @@ namespace CarRentalSystem.Db.Repositories
         public async Task AddUserAsync(User user)
         {
             await _context.Users.AddAsync(user);
-        }
-
-        public async Task SaveChangesAsync()
-        {
             await _context.SaveChangesAsync();
         }
     }

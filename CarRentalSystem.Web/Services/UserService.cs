@@ -38,7 +38,6 @@ namespace CarRentalSystem.Web.Services
             }; 
 
             await _userRepository.AddUserAsync(user);
-            await _userRepository.SaveChangesAsync();
         }
 
         public async Task<User?> ValidateUserCredentialsAsync(LoginViewModel model)
@@ -60,11 +59,6 @@ namespace CarRentalSystem.Web.Services
         public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _userRepository.GetUserByEmailAsync(email);
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _userRepository.SaveChangesAsync();
         }
 
         private string HashPassword(string password)

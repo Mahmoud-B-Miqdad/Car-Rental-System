@@ -10,6 +10,7 @@ namespace CarRentalSystem.Db.Extensions
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<IBookingRepository, BookingRepository>();
 
             return services;
         }

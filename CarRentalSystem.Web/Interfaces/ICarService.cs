@@ -1,4 +1,5 @@
-﻿using CarRentalSystem.Web.ViewModels;
+﻿using CarRentalSystem.Db.Entities;
+using CarRentalSystem.Web.ViewModels;
 
 namespace CarRentalSystem.Web.Interfaces
 {
@@ -6,5 +7,6 @@ namespace CarRentalSystem.Web.Interfaces
     {
         Task<List<CarViewModel>> GetAvailableCarsAsync();
         Task<List<CarViewModel>> SearchAvailableCarsAsync(SearchCarViewModel input);
+        Task<Car?> GetCarByIdAsync(int carId);
     }
 }

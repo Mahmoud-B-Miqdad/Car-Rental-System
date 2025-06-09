@@ -26,6 +26,14 @@
     </div>
 </form>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
 
 @if (!Model.Any())
 {
@@ -51,6 +59,24 @@ else
                         @if (car.IsAvailable)
                         {
                             <span class="badge bg-success">Available</span>
+
+                            <!-- Form to reserve the car -->
+                            <form asp-controller="Booking" asp-action="Reserve" method="post" class="mt-2">
+                                <input type="hidden" name="CarId" value="@car.Id" />
+                                
+                                <!-- User selects the start and end dates for reservation -->
+                                <div class="mb-2">
+                                    <label for="StartDate">Start Date</label>
+                                    <input type="date" name="StartDate" class="form-control" required />
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="EndDate">End Date</label>
+                                    <input type="date" name="EndDate" class="form-control" required />
+                                </div>
+
+                                <button type="submit" class="btn btn-sm btn-outline-primary w-100">Reserve</button>
+                            </form>
                         }
                         else
                         {

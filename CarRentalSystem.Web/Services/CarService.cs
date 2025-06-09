@@ -1,4 +1,5 @@
-﻿using CarRentalSystem.Db.Interfaces;
+﻿using CarRentalSystem.Db.Entities;
+using CarRentalSystem.Db.Interfaces;
 using CarRentalSystem.Web.Interfaces;
 using CarRentalSystem.Web.ViewModels;
 
@@ -60,6 +61,11 @@ namespace CarRentalSystem.Web.Services
                 .ToList();
 
             return filteredCars;
+        }
+
+        public async Task<Car?> GetCarByIdAsync (int carId)
+        {
+            return await _carRepository.GetCarByIdAsync(carId);
         }
     }
 }

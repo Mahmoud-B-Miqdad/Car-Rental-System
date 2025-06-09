@@ -19,5 +19,11 @@ namespace CarRentalSystem.Db.Repositories
                 .Include(c => c.Bookings)
                 .ToListAsync();
         }
+
+        public async Task<Car?> GetCarByIdAsync(int id)
+        {
+            return await _context.Cars
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
     }
 }

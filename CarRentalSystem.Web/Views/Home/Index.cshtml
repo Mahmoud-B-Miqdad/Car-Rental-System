@@ -1,8 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome to CarRental";
+    var userName = User.Identity.IsAuthenticated ? User.Identity.Name : null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="jumbotron text-center mt-5">
+    <h1 class="display-4">
+        Welcome to CarRental!
+        @if (userName != null)
+        {
+            <span class="text-primary">Hi, @userName </span>
+        }
+    </h1>
+    <p class="lead">Your trusted partner for affordable and reliable car rentals.</p>
+    <hr class="my-4" />
+    <p>Browse our wide selection of vehicles and make your reservation today.</p>
+    <a class="btn btn-primary btn-lg" asp-action="Index" asp-controller="Cars">Browse Cars</a>
 </div>

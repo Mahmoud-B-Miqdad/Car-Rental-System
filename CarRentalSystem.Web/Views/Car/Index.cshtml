@@ -1,0 +1,43 @@
+﻿@model List<CarRentalSystem.Web.ViewModels.CarViewModel>
+
+@{
+    ViewData["Title"] = "Available Cars";
+}
+
+<h2>Available Cars</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No cars available at the moment.</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var car in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Brand @car.Model (@car.Year)</h5>
+                        <p class="card-text">
+                            Type: @car.Type<br />
+                            Location: @car.Location<br />
+                            Price Per Day: @car.PricePerDay.ToString("C")<br />
+                            Available From: @car.AvailableFromDate.ToShortDateString()<br />
+                            Available To: @car.AvailableToDate.ToShortDateString()
+                        </p>
+
+                        @if (car.IsAvailable)
+                        {
+                            <span class="badge bg-success">Available</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Unavailable</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -26,6 +26,9 @@ namespace CarRentalSystem.Web.Services
             {
                 CarBrand = b.Car.Brand,
                 CarModel = b.Car.Model,
+                CarYear = b.Car.Year,
+                PricePerDay = b.Car.PricePerDay,
+                Location = b.Car.Location,
                 StartDate = b.StartDate,
                 EndDate = b.EndDate,
                 TotalPrice = b.TotalPrice

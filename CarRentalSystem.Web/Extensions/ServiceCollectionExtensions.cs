@@ -8,6 +8,7 @@ namespace CarRentalSystem.Web.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICarService, CarService>();
 
             return services;
         }

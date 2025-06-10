@@ -10,6 +10,7 @@ namespace CarRentalSystem.Web.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             return services;
         }

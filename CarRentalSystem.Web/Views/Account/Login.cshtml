@@ -32,7 +32,10 @@
 </form>
 
 <div class="mt-3 d-flex justify-content-between">
-    <a href="#">Forgot your password?</a>
+
+    <a asp-controller="Account" asp-action="ForgotPassword" class="text-decoration-none">
+        Forgot your password?
+    </a>
     <a asp-controller="Account" asp-action="Register" class="text-decoration-none">
         Don't have an account? <strong>Register here</strong>
     </a>

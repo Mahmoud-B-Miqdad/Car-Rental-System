@@ -116,5 +116,57 @@ namespace CarRentalSystem.Web.Controllers
             TempData["SuccessMessage"] = "Profile updated successfully.";
             return RedirectToAction("Edit");
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var result = await _userService.SendPasswordResetLinkAsync(model.Email);
+
+            if (result)
+            {
+                TempData["SuccessMessage"] = "Password reset link has been sent to your email.";
+                return RedirectToAction("Login");
+            }
+
+            ModelState.AddModelError("", "Email not found.");
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string email, string token)
+        {
+            return View(new ResetPasswordViewModel
+            {
+                Email = email,
+                Token = token
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var result = await _userService.ResetPasswordAsync(model.Email, model.Token, model.NewPassword);
+
+            if (result)
+            {
+                TempData["SuccessMessage"] = "Password has been reset successfully.";
+                return RedirectToAction("Login");
+            }
+
+            ModelState.AddModelError("", "Invalid reset token or email.");
+            return View(model);
+        }
     }
 }

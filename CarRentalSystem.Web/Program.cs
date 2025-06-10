@@ -1,10 +1,14 @@
 ﻿using CarRentalSystem.Db;
 using CarRentalSystem.Db.Extensions;
 using CarRentalSystem.Web.Extensions;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Env.Load();
+builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();

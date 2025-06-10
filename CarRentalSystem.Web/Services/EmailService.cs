@@ -1,6 +1,4 @@
 ﻿using CarRentalSystem.Web.Interfaces;
-using System.Net.Mail;
-using System.Net;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 

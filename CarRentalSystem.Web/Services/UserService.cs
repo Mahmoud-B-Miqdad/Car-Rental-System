@@ -10,10 +10,12 @@ namespace CarRentalSystem.Web.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEmailService _emailService;
 
-        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository, ILogger<UserService> logger, IEmailService emailService)
         {
             _userRepository = userRepository;
+            _emailService = emailService;
         }
 
         public async Task<bool> IsEmailUniqueAsync(string email)
@@ -78,6 +80,33 @@ namespace CarRentalSystem.Web.Services
             return true;
         }
 
+        public async Task<bool> SendPasswordResetLinkAsync(string email)
+        {
+            var user = await GetUserByEmailAsync(email);
+            if (user == null)
+                return false;
+
+            var token = Guid.NewGuid().ToString();
+            var resetLink = $"https://localhost:7155/Account/ResetPassword?email={email}&token={token}";
+
+            await _emailService.SendEmailAsync(
+                toEmail: email,
+                subject: "Reset Your Password",
+                body: $"Click <a href=\"{resetLink}\">here</a> to reset your password."
+            );
+            return true;
+        }
+
+        public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword)
+        {
+            var user = await GetUserByEmailAsync(email);
+            if (user == null)
+                return false;
+
+            user.Password = HashPassword(newPassword);
+            await _userRepository.UpdateUserAsync(user);
+            return true;
+        }
 
         private string HashPassword(string password)
         {

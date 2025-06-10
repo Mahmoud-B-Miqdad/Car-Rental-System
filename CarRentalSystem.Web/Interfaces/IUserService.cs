@@ -11,5 +11,7 @@ namespace CarRentalSystem.Web.Interfaces
         Task RegisterUserAsync(RegisterViewModel model);
         Task<User?> ValidateUserCredentialsAsync(LoginViewModel model);
         Task<bool> UpdateUserAsync(EditProfileViewModel model);
+        Task<bool> SendPasswordResetLinkAsync(string email);
+        Task<bool> ResetPasswordAsync(string email, string token, string newPassword);
     }
 }

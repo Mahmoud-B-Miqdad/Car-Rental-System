@@ -6,5 +6,6 @@ namespace CarRentalSystem.Db.Interfaces
     {
         Task<List<Car>> GetAllCarsAsync();
         Task<Car?> GetCarByIdAsync(int id);
+        Task<List<Car>> GetFilteredCarsAsync(DateTime startDate, DateTime endDate, string? location);
     }
 }

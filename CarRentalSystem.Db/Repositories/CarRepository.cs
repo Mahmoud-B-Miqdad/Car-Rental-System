@@ -25,5 +25,16 @@ namespace CarRentalSystem.Db.Repositories
             return await _context.Cars
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
+        public async Task<List<Car>> GetFilteredCarsAsync(DateTime startDate, DateTime endDate, string? location)
+        {
+            return await _context.Cars
+                .Where(c =>
+                    c.AvailableFromDate <= startDate &&
+                    c.AvailableToDate >= endDate &&
+                    (string.IsNullOrEmpty(location) || c.Location.ToLower().Contains(location.ToLower()))
+                )
+                .ToListAsync();
+        }
     }
 }

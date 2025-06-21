@@ -39,28 +39,23 @@ namespace CarRentalSystem.Web.Services
         {
             var cars = await _carRepository.GetAllCarsAsync();
 
-            var filteredCars = cars
-                .Where(c =>
-                    c.AvailableFromDate <= input.StartDate &&
-                    c.AvailableToDate >= input.EndDate &&
-                    (string.IsNullOrEmpty(input.Location) || c.Location.ToLower().Contains(input.Location.ToLower()))
-                )
-                .Select(c => new CarViewModel
-                {
-                    Id = c.Id,
-                    Brand = c.Brand,
-                    Model = c.Model,
-                    Year = c.Year,
-                    Type = c.Type,
-                    Location = c.Location,
-                    PricePerDay = c.PricePerDay,
-                    AvailableFromDate = c.AvailableFromDate,
-                    AvailableToDate = c.AvailableToDate,
-                    IsAvailable = true
-                })
-                .ToList();
+            var filteredCars = await _carRepository.GetFilteredCarsAsync(input.StartDate, input.EndDate, input.Location);
 
-            return filteredCars;
+            var AvailableCars = filteredCars.Select(c => new CarViewModel
+            {
+                Id = c.Id,
+                Brand = c.Brand,
+                Model = c.Model,
+                Year = c.Year,
+                Type = c.Type,
+                Location = c.Location,
+                PricePerDay = c.PricePerDay,
+                AvailableFromDate = c.AvailableFromDate,
+                AvailableToDate = c.AvailableToDate,
+                IsAvailable = true
+            }).ToList();
+
+            return AvailableCars;
         }
 
         public async Task<Car?> GetCarByIdAsync (int carId)

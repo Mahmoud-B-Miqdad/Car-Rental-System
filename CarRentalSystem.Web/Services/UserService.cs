@@ -20,7 +20,7 @@ namespace CarRentalSystem.Web.Services
 
         public async Task<bool> IsEmailUniqueAsync(string email)
         {
-            return !await _userRepository.DoesEmailExistAsync(email);
+            return !await _userRepository.EmailExistAsync(email);
         }
         public async Task RegisterUserAsync(RegisterViewModel model)
         {

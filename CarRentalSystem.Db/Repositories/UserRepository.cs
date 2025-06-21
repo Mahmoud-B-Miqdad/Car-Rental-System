@@ -12,7 +12,7 @@ namespace CarRentalSystem.Db.Repositories
         {
             _context = context;
         }
-        public async Task<bool> DoesEmailExistAsync(string email)
+        public async Task<bool> EmailExistAsync(string email)
         {
             return await _context.Users.AnyAsync(u => u.Email == email);
         }

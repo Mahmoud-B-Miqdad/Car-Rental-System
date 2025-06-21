@@ -2,6 +2,7 @@
 using CarRentalSystem.Db.Interfaces;
 using CarRentalSystem.Web.Interfaces;
 using CarRentalSystem.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -80,14 +81,19 @@ namespace CarRentalSystem.Web.Services
             return true;
         }
 
-        public async Task<bool> SendPasswordResetLinkAsync(string email)
+        public async Task<bool> SendPasswordResetLinkAsync(string email, IUrlHelper urlHelper)
         {
             var user = await GetUserByEmailAsync(email);
             if (user == null)
                 return false;
 
             var token = Guid.NewGuid().ToString();
-            var resetLink = $"https://localhost:7155/Account/ResetPassword?email={email}&token={token}";
+            var resetLink = urlHelper.Action(
+                action: "ResetPassword",
+                controller: "Account",
+                values: new { email, token },
+                protocol: "https"
+            );
 
             await _emailService.SendEmailAsync(
                 toEmail: email,

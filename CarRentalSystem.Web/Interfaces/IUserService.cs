@@ -1,5 +1,6 @@
 ﻿using CarRentalSystem.Db.Entities;
 using CarRentalSystem.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalSystem.Web.Interfaces
 {
@@ -11,7 +12,7 @@ namespace CarRentalSystem.Web.Interfaces
         Task RegisterUserAsync(RegisterViewModel model);
         Task<User?> ValidateUserCredentialsAsync(LoginViewModel model);
         Task<bool> UpdateUserAsync(EditProfileViewModel model);
-        Task<bool> SendPasswordResetLinkAsync(string email);
+        Task<bool> SendPasswordResetLinkAsync(string email, IUrlHelper urlHelper);
         Task<bool> ResetPasswordAsync(string email, string token, string newPassword);
     }
 }

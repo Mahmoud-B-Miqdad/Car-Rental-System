@@ -129,7 +129,7 @@ namespace CarRentalSystem.Web.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            var result = await _userService.SendPasswordResetLinkAsync(model.Email);
+            var result = await _userService.SendPasswordResetLinkAsync(model.Email, Url);
 
             if (result)
             {

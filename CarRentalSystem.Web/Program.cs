@@ -1,6 +1,7 @@
 ﻿using CarRentalSystem.Db;
 using CarRentalSystem.Db.Extensions;
 using CarRentalSystem.Web.Extensions;
+using CarRentalSystem.Web.Models;
 using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,8 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Services.Configure<SendGridSettings>(
+    builder.Configuration.GetSection("SendGrid"));
 
 builder.Services.AddDbContext<CarRentalDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

@@ -1,9 +1,9 @@
 ﻿using CarRentalSystem.Db.Entities;
 using CarRentalSystem.Db.Interfaces;
+using CarRentalSystem.Web.Extensions;
 using CarRentalSystem.Web.Interfaces;
 using CarRentalSystem.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace CarRentalSystem.Web.Services
@@ -30,7 +30,7 @@ namespace CarRentalSystem.Web.Services
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                Password = HashPassword(model.Password), 
+                Password = model.Password.HashPassword(), 
                 PhoneNumber = model.PhoneNumber,
                 DateOfBirth = model.DateOfBirth,
                 AddressLine1 = model.AddressLine1,
@@ -47,7 +47,7 @@ namespace CarRentalSystem.Web.Services
         {
             var user = await _userRepository.GetUserByEmailAsync(model.Email);
 
-            if (user != null && VerifyPassword(model.Password, user.Password))
+            if (user != null && model.Password.VerifyPassword(user.Password))
             {
                 return user;
             }
@@ -109,24 +109,9 @@ namespace CarRentalSystem.Web.Services
             if (user == null)
                 return false;
 
-            user.Password = HashPassword(newPassword);
+            user.Password = newPassword.HashPassword();
             await _userRepository.UpdateUserAsync(user);
             return true;
-        }
-
-        private string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToBase64String(bytes);
-            }
-        }
-
-        private bool VerifyPassword(string enteredPassword, string storedPassword)
-        {
-            var enteredPasswordHash = HashPassword(enteredPassword);
-            return enteredPasswordHash == storedPassword;
         }
     }
 }

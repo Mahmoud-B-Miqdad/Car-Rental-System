@@ -46,12 +46,9 @@ namespace CarRentalSystem.Web.Services
                 return false; 
             }
 
-            bool isWithinAvailableDates =
-                startDate >= car.AvailableFromDate &&
-                endDate <= car.AvailableToDate;
+            bool isWithinAvailableDates = IsWithinAvailableDates(car, startDate, endDate);
 
-            bool isOverlapping = car.Bookings.Any(b =>
-                (startDate < b.EndDate && endDate > b.StartDate));
+            bool isOverlapping = IsOverlapping(car, startDate, endDate);
 
             if (!isWithinAvailableDates || isOverlapping)
                 return false;
@@ -70,6 +67,18 @@ namespace CarRentalSystem.Web.Services
 
             await _bookingRepository.AddBookingAsync(booking);
             return true;
+        }
+
+        private bool IsWithinAvailableDates(Car car, DateTime startDate, DateTime endDate)
+        {
+            return (startDate >= car.AvailableFromDate &&
+                endDate <= car.AvailableToDate);
+        }
+
+        private bool IsOverlapping(Car car, DateTime startDate, DateTime endDate)
+        {
+            return car.Bookings.Any(b =>
+                startDate < b.EndDate && endDate > b.StartDate);
         }
     }
 }

@@ -40,14 +40,6 @@ namespace CarRentalSystem.Web.Controllers
                 return RedirectToAction("Index", "Car");
             }
 
-            var car = await _carService.GetCarByIdAsync(carId);
-
-            if (car == null || car.AvailableFromDate > startDate || car.AvailableToDate < endDate)
-            {
-                TempData["ErrorMessage"] = "The car is not available for the selected dates.";
-                return RedirectToAction("Index", "Car");
-            }
-
             var result = await _bookingService.ReserveCarAsync(carId, userEmail, startDate, endDate );
 
             if (result)

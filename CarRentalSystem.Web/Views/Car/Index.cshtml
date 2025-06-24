@@ -1,0 +1,90 @@
+﻿@model List<CarRentalSystem.Web.ViewModels.CarViewModel>
+
+@{
+    ViewData["Title"] = "Available Cars";
+}
+
+<h2>Available Cars</h2>
+
+<form asp-action="Search" method="post" class="mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="StartDate">Start Date</label>
+            <input type="date" name="StartDate" class="form-control" required />
+        </div>
+        <div class="col-md-3">
+            <label for="EndDate">End Date</label>
+            <input type="date" name="EndDate" class="form-control" required />
+        </div>
+        <div class="col-md-3">
+            <label for="Location">Location</label>
+            <input type="text" name="Location" class="form-control" placeholder="Enter location" />
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </div>
+</form>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No cars available at the moment.</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var car in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Brand @car.Model (@car.Year)</h5>
+                        <p class="card-text">
+                            Type: @car.Type<br />
+                            Location: @car.Location<br />
+                            Price Per Day: @car.PricePerDay.ToString("C")<br />
+                            Available From: @car.AvailableFromDate.ToShortDateString()<br />
+                            Available To: @car.AvailableToDate.ToShortDateString()
+                        </p>
+
+                        @if (car.IsAvailable)
+                        {
+                            <span class="badge bg-success">Available</span>
+
+                            <!-- Form to reserve the car -->
+                            <form asp-controller="Booking" asp-action="Reserve" method="post" class="mt-2">
+                                <input type="hidden" name="CarId" value="@car.Id" />
+                                
+                                <!-- User selects the start and end dates for reservation -->
+                                <div class="mb-2">
+                                    <label for="StartDate">Start Date</label>
+                                    <input type="date" name="StartDate" class="form-control" required />
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="EndDate">End Date</label>
+                                    <input type="date" name="EndDate" class="form-control" required />
+                                </div>
+
+                                <button type="submit" class="btn btn-sm btn-outline-primary w-100">Reserve</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Unavailable</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
